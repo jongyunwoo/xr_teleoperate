@@ -461,7 +461,7 @@ if __name__ == '__main__':
                         tactile_data = get_tactile_data()
                         carpet_tactiles['carpet_0'] = tactile_data
 
-                        if args.carpet_headless:
+                        if not args.carpet_headless:
                             tactile_render = (tactile_data / args.carpet_sensitivity) * 255
                             tactile_render = np.clip(tactile_render, 0, 255)
                             tactile_render = cv2.resize(tactile_render.astype(np.uint8), (500, 500))
