@@ -99,26 +99,23 @@ if __name__ == '__main__':
         img_config = {
             'fps': 30,
             'head_camera_type': 'opencv',
-            'head_camera_image_shape': [480, 640],  # Head camera resolution
+            'head_camera_image_shape': [480, 848],  # Head camera resolution
             'head_camera_id_numbers': [0],
             'wrist_camera_type': 'opencv',
-            'wrist_camera_image_shape': [480, 640],  # Wrist camera resolution
+            'wrist_camera_image_shape': [480, 848],  # Wrist camera resolution
             'wrist_camera_id_numbers': [2, 4],
             'third_camera_type': 'opencv',
-            'third_camera_image_shape': [480, 640],  # Third camera resolution
+            'third_camera_image_shape': [480, 848],  # Third camera resolution
             'third_camera_id_numbers': [5], # TODO: change the camera id
         }
     else:
         img_config = {
             'fps': 30,
-            'head_camera_type': 'opencv',
-            'head_camera_image_shape': [480, 1280],  # Head camera resolution
-            'head_camera_id_numbers': [0],
-            'wrist_camera_type': 'opencv',
-            'wrist_camera_image_shape': [480, 640],  # Wrist camera resolution
-            'wrist_camera_id_numbers': [2, 4],
+            'head_camera_type': 'realsense',
+            'head_camera_image_shape': [480, 848],  # Head camera resolution
+            'head_camera_id_numbers': ['339222071291'],
             'third_camera_type': 'opencv',
-            'third_camera_image_shape': [480, 640],  # Third camera resolution
+            'third_camera_image_shape': [480, 848],  # Third camera resolution
             'third_camera_id_numbers': [5], # TODO: change the camera id
         }
 

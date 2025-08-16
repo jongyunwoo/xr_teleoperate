@@ -278,7 +278,7 @@ if __name__ == '__main__':
 
             if not args.headless:
                 tv_resized_image = cv2.resize(tv_img_array, (tv_img_shape[1] // 2, tv_img_shape[0] // 2))
-                #cv2.imshow("record image", tv_resized_image)
+                cv2.imshow("record image", tv_resized_image)
                 if THIRD:
                     third_resized = cv2.resize(third_img_array, (third_img_shape[1] // 2, third_img_shape[0] // 2))
                     cv2.imshow("third camera", third_resized)
