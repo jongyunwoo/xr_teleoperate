@@ -103,12 +103,14 @@ class EpisodeWriter():
         self.depth_dir = os.path.join(self.episode_dir, 'depths')
         self.audio_dir = os.path.join(self.episode_dir, 'audios')
         self.carpet_tactile_dir = os.path.join(self.episode_dir, 'carpet_tactiles')
+        self.third_image_dir = os.path.join(self.episode_dir, 'third_images')
         self.json_path = os.path.join(self.episode_dir, 'data.json')
         os.makedirs(self.episode_dir, exist_ok=True)
         os.makedirs(self.color_dir, exist_ok=True)
         os.makedirs(self.depth_dir, exist_ok=True)
         os.makedirs(self.audio_dir, exist_ok=True)
         os.makedirs(self.carpet_tactile_dir, exist_ok=True)
+        os.makedirs(self.third_image_dir, exist_ok=True)
         if self.rerun_log:
             self.online_logger = RerunLogger(prefix="online/", IdxRangeBoundary = 60, memory_limit="300MB")
 
@@ -116,7 +118,7 @@ class EpisodeWriter():
         logger_mp.info(f"==> New episode created: {self.episode_dir}")
         return True  # Return True if the episode is successfully created
         
-    def add_item(self, colors, depths=None, states=None, actions=None, tactiles=None, audios=None, sim_state=None, carpet_tactiles=None):
+    def add_item(self, colors, depths=None, states=None, actions=None, tactiles=None, audios=None, sim_state=None, carpet_tactiles=None, third_images=None):
         # Increment the item ID
         self.item_id += 1
         # Create the item data dictionary
@@ -130,6 +132,7 @@ class EpisodeWriter():
             'audios': audios,
             'sim_state': sim_state,
             'carpet_tactiles': carpet_tactiles,
+            'third_images': third_images,
         }
         # Enqueue the item data
         self.item_data_queue.put(item_data)
@@ -157,6 +160,7 @@ class EpisodeWriter():
         depths = item_data.get('depths', {})
         audios = item_data.get('audios', {})
         carpet_tactiles = item_data.get('carpet_tactiles', {})
+        third_images = item_data.get('third_images', {})
 
         # Save images
         if colors:
@@ -186,6 +190,13 @@ class EpisodeWriter():
                 carpet_name = f'carpet_{str(idx).zfill(6)}_{carpet_key}.npy'
                 np.save(os.path.join(self.carpet_tactile_dir, carpet_name), carpet_data.astype(np.float32))
                 item_data['carpet_tactiles'][carpet_key] = os.path.join(self.episode_dir, carpet_name)
+        
+        if third_images:
+            for idx_third, (third_key, third) in enumerate(third_images.items()):
+                third_name = f'{str(idx).zfill(6)}_{third_key}.jpg'
+                if not cv2.imwrite(os.path.join(self.third_image_dir, third_name), third):
+                    logger_mp.info(f"Failed to save third_image.")
+                item_data['third_images'][third_key] = os.path.join('third_images', third_name)
 
 
         # Update episode data
