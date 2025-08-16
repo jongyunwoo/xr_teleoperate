@@ -198,11 +198,11 @@ if __name__ == '__main__':
         dual_gripper_action_array = Array('d', 2, lock=False)  # current left, right gripper action(2) data.
         gripper_ctrl = Dex1_1_Gripper_Controller(left_gripper_value, right_gripper_value, dual_gripper_data_lock, dual_gripper_state_array, dual_gripper_action_array, simulation_mode=args.sim)
     elif args.ee == "inspire1":
-        # left_hand_pos_array = Array('d', 75, lock = True)      # [input]
-        # right_hand_pos_array = Array('d', 75, lock = True)     # [input]
-        # dual_hand_data_lock = Lock()
-        # dual_hand_state_array = Array('d', 12, lock = False)   # [output] current left, right hand state(12) data.
-        # dual_hand_action_array = Array('d', 12, lock = False)  # [output] current left, right hand action(12) data.
+        left_hand_pos_array = Array('d', 75, lock = True)      # [input]
+        right_hand_pos_array = Array('d', 75, lock = True)     # [input]
+        dual_hand_data_lock = Lock()
+        dual_hand_state_array = Array('d', 12, lock = False)   # [output] current left, right hand state(12) data.
+        dual_hand_action_array = Array('d', 12, lock = False)  # [output] current left, right hand action(12) data.
         # hand_ctrl = Inspire_Controller(left_hand_pos_array, right_hand_pos_array, dual_hand_data_lock, dual_hand_state_array, dual_hand_action_array, simulation_mode=args.sim)
         hand_ctrl= None
     elif args.ee == "brainco":
@@ -316,6 +316,7 @@ if __name__ == '__main__':
 
             # record data
             if args.record:
+                logger_mp.debug("record")
                 # dex hand or gripper
                 if args.ee == "dex3" and args.xr_mode == "hand":
                     with dual_hand_data_lock:
@@ -369,6 +370,7 @@ if __name__ == '__main__':
                 # left_arm_action = sol_q[:7]
                 # right_arm_action = sol_q[-7:]
                 if is_recording:
+                    logger_mp.debug("is_recording")
                     colors = {}
                     depths = {}
                     if BINOCULAR:
@@ -435,7 +437,7 @@ if __name__ == '__main__':
 
 
                     if args.carpet_tactile:
-                        print(111)
+                        logger_mp.debug("carpet_tactile")
                         carpet_tactiles = dict()
                         tactile_data = get_tactile_data()
                         carpet_tactiles['carpet_0'] = tactile_data
